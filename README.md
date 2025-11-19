@@ -54,6 +54,11 @@ Manually structured dataset from the Saudi Labor Law including:
 - يعرض النظام النص الكامل للمادة أيضًا.
 
 ---
+### 🎥 Demo Video  
+[اضغط هنا لمشاهدة الديمو](video_2025-11-18_16-21-20.mp4)
+
+
+---
 
 ## 🎯 Purpose  
 Built for:

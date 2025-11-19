@@ -1,3 +1,6 @@
+# KSA Saudi Labor Law RAG  
+
+
 **An intelligent Retrieval-Augmented Generation (RAG) system for answering questions related to the Saudi Labor Law (نظام العمل السعودي).**
 
 This project provides accurate, citation-based answers to user questions by searching, retrieving, and reasoning over official Saudi Labor Law articles.  
@@ -10,10 +13,10 @@ It supports question rewriting, hybrid search, and detailed legal references.
 ### 🔍 1. Smart Question Rewriting  
 The system rewrites user queries to clearer, law-friendly formats to improve retrieval accuracy.
 
-### 📚 2. Hybrid Search (BM25 + Embeddings)  
+### 📚 2. Hybrid Search (article + Embeddings)  
 Combines:
 - **Semantic search** using Jina Embeddings  
-- **Keyword/BM25 search**  
+- **Keyword/article search**  
 for maximum precision.
 
 ### 🧠 3. Context-Aware Answer Generation  
@@ -62,10 +65,6 @@ Built for:
 
 ---
 
-## 🤝 Contributing  
-Pull requests are welcome.
-
----
 
 ## 📩 Contact  
 **Developer:** Osama Alghamdi

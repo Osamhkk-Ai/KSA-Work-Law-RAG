@@ -88,9 +88,10 @@ Below are selected screenshots showcasing the core functionalities of the **Saud
 
 
 
-## 🎥 Demo Video  
-[اضغط هنا لمشاهدة الديمو](assets/video_2025-11-18_16-21-20.mp4)
+## 🎥 Live Demo  
+Click below to watch the full system demo:
 
+👉 [Watch Demo Video](assets/video_2025-11-18_16-21-20.mp4)
 
 ---
 

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الذكاء القانوني - RAG</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 min-h-screen">
+    
+    <!-- Header -->
+    <div class="bg-gradient-to-l from-emerald-600 to-teal-700 shadow-2xl">
+        <div class="max-w-6xl mx-auto px-6 py-8">
+            <div class="flex items-center gap-4">
+                <div class="bg-white/20 p-4 rounded-2xl backdrop-blur-sm">
+                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-4xl font-bold text-white mb-2">الذكاء القانوني</h1>
+                    <p class="text-emerald-50 text-lg">محرك بحث قانوني متقدم بتقنية RAG</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-6 py-12">
+        <!-- Search Section -->
+        <div class="bg-white rounded-3xl shadow-2xl p-8 mb-8">
+            <div class="flex items-center gap-3 mb-6">
+                <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                <h2 class="text-2xl font-bold text-slate-800">اطرح سؤالك القانوني</h2>
+            </div>
+            
+            <div class="space-y-4">
+                <textarea
+                    id="queryInput"
+                    placeholder="مثال: ما هي ساعات العمل القانونية في المملكة؟&#10;&#10;💡 اضغط Ctrl+Enter للبحث السريع"
+                    class="w-full p-4 border-2 border-slate-200 rounded-2xl focus:border-emerald-500 focus:outline-none text-lg resize-none"
+                    rows="4"
+                ></textarea>
+                
+                <button
+                    id="searchBtn"
+                    class="w-full bg-gradient-to-l from-emerald-600 to-teal-600 text-white py-4 rounded-2xl font-bold text-lg hover:from-emerald-700 hover:to-teal-700 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-3"
+                >
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                    بحث ذكي
+                </button>
+            </div>
+
+            <div id="errorBox" class="hidden mt-4 p-4 bg-red-50 border-r-4 border-red-500 rounded-lg flex items-center gap-3">
+                <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <p id="errorText" class="text-red-800"></p>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div id="progressBox" class="hidden bg-white rounded-3xl shadow-2xl p-8 mb-8">
+            <div class="space-y-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-bold text-slate-800">جاري المعالجة</h3>
+                    <span id="progressPercent" class="text-2xl font-bold text-emerald-600">0%</span>
+                </div>
+                
+                <div class="relative h-4 bg-slate-100 rounded-full overflow-hidden">
+                    <div id="progressBar" class="absolute top-0 right-0 h-full bg-gradient-to-l from-emerald-500 to-teal-500 transition-all duration-300 ease-out rounded-full shadow-lg" style="width: 0%">
+                        <div class="absolute inset-0 bg-white/30 animate-pulse"></div>
+                    </div>
+                </div>
+
+                <div id="stepsContainer" class="space-y-3"></div>
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div id="resultsBox" class="hidden space-y-8"></div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="text-center py-16 text-slate-400">
+            <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <p class="text-xl">ابدأ بكتابة سؤالك للحصول على إجابة قانونية دقيقة</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="bg-slate-900 border-t border-slate-700 mt-12">
+        <div class="max-w-6xl mx-auto px-6 py-6 text-center text-slate-400">
+            <p>جميع الحقوق محفوظة © 2024 | نظام الذكاء القانوني المتقدم</p>
+            <p class="text-sm mt-2 text-slate-500">Powered by RAG Technology & Gemini AI</p>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8000';
+        
+        const steps = [
+            { name: 'تحليل السؤال', progress: 20 },
+            { name: 'إعادة صياغة السؤال', progress: 40 },
+            { name: 'البحث في قاعدة البيانات', progress: 60 },
+            { name: 'ترتيب النتائج', progress: 80 },
+            { name: 'إنشاء الإجابة', progress: 100 }
+        ];
+
+        let currentProgress = 0;
+
+        // عناصر DOM
+        const queryInput = document.getElementById('queryInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const errorBox = document.getElementById('errorBox');
+        const errorText = document.getElementById('errorText');
+        const progressBox = document.getElementById('progressBox');
+        const progressBar = document.getElementById('progressBar');
+        const progressPercent = document.getElementById('progressPercent');
+        const stepsContainer = document.getElementById('stepsContainer');
+        const resultsBox = document.getElementById('resultsBox');
+        const emptyState = document.getElementById('emptyState');
+
+        // إخفاء/إظهار العناصر
+        function showElement(el) { el.classList.remove('hidden'); }
+        function hideElement(el) { el.classList.add('hidden'); }
+
+        // تحديث شريط التقدم
+        function updateProgress(progress) {
+            currentProgress = progress;
+            progressBar.style.width = `${progress}%`;
+            progressPercent.textContent = `${Math.round(progress)}%`;
+        }
+
+        // رسم الخطوات
+        function renderSteps() {
+            stepsContainer.innerHTML = steps.map((step, idx) => `
+                <div id="step-${idx}" class="flex items-center gap-3 p-3 rounded-xl transition-all bg-slate-50 text-slate-400">
+                    <div class="w-5 h-5 rounded-full border-2 border-slate-300"></div>
+                    <span class="font-medium">${step.name}</span>
+                </div>
+            `).join('');
+        }
+
+        // تحديث حالة الخطوة
+        function updateStep(stepIndex, status) {
+            const stepEl = document.getElementById(`step-${stepIndex}`);
+            if (!stepEl) return;
+
+            if (status === 'completed') {
+                stepEl.className = 'flex items-center gap-3 p-3 rounded-xl transition-all bg-emerald-50 text-emerald-800';
+                stepEl.querySelector('div').innerHTML = `
+                    <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                `;
+            } else if (status === 'active') {
+                stepEl.className = 'flex items-center gap-3 p-3 rounded-xl transition-all bg-blue-50 text-blue-800';
+                stepEl.querySelector('div').innerHTML = `
+                    <svg class="w-5 h-5 animate-spin text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                    </svg>
+                `;
+            }
+        }
+
+        // عرض الخطأ
+        function showError(message) {
+            errorText.textContent = message;
+            showElement(errorBox);
+        }
+
+        function hideError() {
+            hideElement(errorBox);
+        }
+
+        // عرض النتائج
+        function displayResults(data) {
+            resultsBox.innerHTML = `
+                <!-- Search Type Badge -->
+                <div class="flex items-center gap-3">
+                    <span class="px-4 py-2 rounded-full text-sm font-bold ${
+                        data.search_type === 'direct' 
+                            ? 'bg-purple-100 text-purple-800' 
+                            : 'bg-blue-100 text-blue-800'
+                    }">
+                        ${data.search_type === 'direct' ? '🎯 بحث مباشر' : '🧠 بحث ذكي'}
+                    </span>
+                </div>
+
+                <!-- Rewritten Query -->
+                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl shadow-lg p-6 border border-blue-100">
+                    <div class="flex items-center gap-3 mb-3">
+                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        <h3 class="text-lg font-bold text-blue-900">المطلوب</h3>
+                    </div>
+                    <p class="text-blue-800 text-lg">${data.rewritten_query}</p>
+                </div>
+
+
+                <!-- Answer -->
+                <div class="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-3xl shadow-2xl p-8 border border-emerald-100">
+                    <h3 class="text-2xl font-bold text-emerald-900 mb-6 flex items-center gap-3">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        الإجابة الشاملة
+                    </h3>
+                    <div class="space-y-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm">
+                            <h4 class="font-bold text-slate-700 mb-3 text-lg">📝 السؤال:</h4>
+                            <p class="text-slate-800 text-lg">${data.answer.question}</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border-r-4 border-amber-400">
+                            <h4 class="font-bold text-amber-700 mb-3 text-lg">📖 المادة المرجعية:</h4>
+                            <p class="text-slate-800 text-lg leading-relaxed">${data.answer.referenced_article}</p>
+                        </div>
+                        <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-2xl shadow-sm border-r-4 border-green-400">
+                            <h4 class="font-bold text-green-700 mb-3 text-lg">💡 الشرح المبسط:</h4>
+                            <p class="text-slate-800 text-lg leading-relaxed">${data.answer.simplified}</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Articles -->
+                <div class="bg-white rounded-3xl shadow-2xl p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        </svg>
+                        <h3 class="text-2xl font-bold text-slate-800">المواد القانونية المرتبطة (${data.articles.length})</h3>
+                    </div>
+                    <div class="space-y-4">
+                        ${data.articles.map(article => `
+                            <div class="p-6 bg-slate-50 rounded-2xl border-r-4 border-emerald-500 hover:shadow-lg transition-shadow">
+                                <div class="flex items-start justify-between mb-4">
+                                    <h4 class="text-xl font-bold text-slate-800 flex-1">${article.title}</h4>
+                                    <span class="bg-emerald-100 text-emerald-800 px-4 py-1 rounded-full text-sm font-bold whitespace-nowrap mr-3">
+                                        المادة ${article.article_id}
+                                    </span>
+                                </div>
+                                <p class="text-slate-700 text-lg leading-relaxed mb-4">${article.content}</p>
+                                ${article.part || article.chapter ? `
+                                    <div class="flex flex-wrap gap-3 text-sm">
+                                        ${article.part ? `<span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-lg">📂 ${article.part}</span>` : ''}
+                                        ${article.chapter ? `<span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-lg">📄 ${article.chapter}</span>` : ''}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+            `;
+            showElement(resultsBox);
+        }
+
+        // البحث الرئيسي
+        async function processQuery() {
+            const query = queryInput.value.trim();
+            
+            if (!query) {
+                showError('الرجاء إدخال سؤال');
+                return;
+            }
+
+            // إعداد UI
+            hideError();
+            hideElement(emptyState);
+            hideElement(resultsBox);
+            showElement(progressBox);
+            renderSteps();
+            updateProgress(0);
+            
+            searchBtn.disabled = true;
+            searchBtn.innerHTML = `
+                <svg class="w-6 h-6 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                </svg>
+                جاري المعالجة...
+            `;
+
+            try {
+                // محاكاة التقدم
+                for (let i = 0; i < steps.length - 1; i++) {
+                    updateStep(i, 'active');
+                    updateProgress(steps[i].progress);
+                    await new Promise(resolve => setTimeout(resolve, 300));
+                    updateStep(i, 'completed');
+                }
+
+                // الاستدعاء الفعلي
+                const response = await fetch(`${API_URL}/api/search`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'حدث خطأ في الاتصال');
+                }
+
+                const data = await response.json();
+                
+                // الخطوة الأخيرة
+                updateStep(4, 'active');
+                updateProgress(100);
+                await new Promise(resolve => setTimeout(resolve, 300));
+                updateStep(4, 'completed');
+
+                // عرض النتائج
+                setTimeout(() => {
+                    hideElement(progressBox);
+                    displayResults(data);
+                }, 500);
+
+            } catch (error) {
+                console.error('Error:', error);
+                hideElement(progressBox);
+                showError(error.message || 'حدث خطأ أثناء المعالجة');
+            } finally {
+                searchBtn.disabled = false;
+                searchBtn.innerHTML = `
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                    بحث ذكي
+                `;
+            }
+        }
+
+        // ربط الأحداث
+        searchBtn.addEventListener('click', processQuery);
+        queryInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                processQuery();
+            }
+        });
+    </script>
+</body>
+</html>

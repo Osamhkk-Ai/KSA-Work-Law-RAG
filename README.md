@@ -60,31 +60,31 @@ Below are selected screenshots showcasing the core functionalities of the **Saud
 
 ---
 
-### 1. Smart Legal Query Input
+###  Smart Legal Query Input
 > A clean interface for entering any labor-law related question in Arabic.
 
 <img src="assets/photo_2025-11-19_12-37-40.jpg" width="750">
 
 ---
-
-### 2. Hybrid Search Progress & Confidence
-> Shows search progress, ranking confidence, and retrieved article candidates.
-
 <img src="assets/photo_2025-11-19_12-37-52.jpg" width="750">
 
 ---
 
-### 3. Retrieved Article + Clear Legal Answer
+###  Full Article Display With Explanation
+> Displays the entire article text from the Saudi Labor Law for transparency and legal reference.
+
+<img src="assets/photo_2025-11-19_12-38-00.jpg" width="750">
+
+---
+
+###  Retrieved Article + Clear Legal Answer
 > The system retrieves the correct article, rewrites the question, and provides a structured legal explanation.
 
 <img src="assets/photo_2025-11-19_12-37-56.jpg" width="750">
 
----
 
-### 4. Full Article Display With Explanation
-> Displays the entire article text from the Saudi Labor Law for transparency and legal reference.
 
-<img src="assets/photo_2025-11-19_12-38-00.jpg" width="750">
+
 
 
 

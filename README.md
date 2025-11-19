@@ -57,21 +57,20 @@ Manually structured dataset from the Saudi Labor Law including:
 ## 📸 Project Screenshots
 
 ### واجهة البحث
-<img src="photo_2025-11-19_12-37-40.jpg" width="700">
+<img src="assets/photo_2025-11-19_12-37-40.jpg" width="700">
 
 ### نتيجة الاستعلام
-<img src="photo_2025-11-19_12-37-52.jpg" width="700">
+<img src="assets/photo_2025-11-19_12-37-52.jpg" width="700">
 
 ### عرض المادة + التفسير
-<img src="photo_2025-11-19_12-37-56.jpg" width="700">
+<img src="assets/photo_2025-11-19_12-37-56.jpg" width="700">
 
 ### استخراج المادة واستخدامها
-<img src="photo_2025-11-19_12-38-00.jpg" width="700">
+<img src="assets/photo_2025-11-19_12-38-00.jpg" width="700">
 
 
-## 🎥 Demo Video
-
-[اضغط هنا لمشاهدة الديمو](video_2025-11-18_16-21-20.mp4)
+## 🎥 Demo Video  
+[اضغط هنا لمشاهدة الديمو](assets/video_2025-11-18_16-21-20.mp4)
 
 
 ---
